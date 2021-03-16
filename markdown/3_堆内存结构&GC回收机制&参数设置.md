@@ -1,4 +1,17 @@
-[TOC]
+- [堆（Heap）](#堆heap)
+  - [堆的概述](#堆的概述)
+  - [堆的内存结构](#堆的内存结构)
+  - [堆空间大小的设置](#堆空间大小的设置)
+    - [年轻代&老年代](#年轻代老年代)
+  - [对象分配的一般过程](#对象分配的一般过程)
+  - [Minor GC & Major GC & Full GC](#minor-gc--major-gc--full-gc)
+    - [Minor GC触发机制](#minor-gc触发机制)
+    - [老年代GC（Major GC/Full GC）触发机制](#老年代gcmajor-gcfull-gc触发机制)
+  - [内存分配策略](#内存分配策略)
+  - [TLAB（Thread Local Allocation Buffer）](#tlabthread-local-allocation-buffer)
+    - [为什么有TLAB？](#为什么有tlab)
+    - [什么是TLAB？](#什么是tlab)
+  - [堆空间的参数设置](#堆空间的参数设置)
 
 ## 堆（Heap）
 
