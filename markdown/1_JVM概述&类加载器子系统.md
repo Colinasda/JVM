@@ -1,4 +1,24 @@
-[TOC]
+[JVM概述](#jvm概述)
+  - [JVM特点](#jvm特点)
+  - [JVM的整体结构](#jvm的整体结构)
+  - [JVM的架构模型](#jvm的架构模型)
+    - [基于栈式架构](#基于栈式架构)
+    - [基于寄存器架构](#基于寄存器架构)
+  - [发展历程](#发展历程)
+    - [Sun Classic VM](#sun-classic-vm)
+    - [Sun Hotspot VM](#sun-hotspot-vm)
+- [类加载器子系统（Class Loader）](#类加载器子系统class-loader)
+  - [作用](#作用)
+  - [类加载过程](#类加载过程)
+    - [1.加载](#1加载)
+    - [2.链接](#2链接)
+    - [3.初始化](#3初始化)
+  - [类加载器的分类](#类加载器的分类)
+    - [引导类加载器（Bootstrap ClassLoader）](#引导类加载器bootstrap-classloader)
+    - [自定义类加载器](#自定义类加载器)
+      - [为什么要自定义类加载器？](#为什么要自定义类加载器)
+  - [获取ClassLoader的途径](#获取classloader的途径)
+  - [双亲委派机制](#双亲委派机制)
 
 ## JVM概述
 
