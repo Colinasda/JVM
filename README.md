@@ -1,15 +1,15 @@
-# JVM 学习笔记
 - [JVM](#jvm)
-  - [1.JVM概述](#1jvm概述)
+  - [JVM概述](#jvm概述)
     - [JVM特点](#jvm特点)
     - [JVM的整体结构](#jvm的整体结构)
+    - [总体框架图](#总体框架图)
     - [JVM的架构模型](#jvm的架构模型)
       - [基于栈式架构](#基于栈式架构)
       - [基于寄存器架构](#基于寄存器架构)
     - [发展历程](#发展历程)
       - [Sun Classic VM](#sun-classic-vm)
       - [Sun Hotspot VM](#sun-hotspot-vm)
-  - [2.类加载器子系统（Class Loader）](#2类加载器子系统class-loader)
+  - [类加载器子系统（Class Loader）](#类加载器子系统class-loader)
     - [作用](#作用)
     - [类加载过程](#类加载过程)
       - [1.加载](#1加载)
@@ -21,7 +21,7 @@
         - [为什么要自定义类加载器？](#为什么要自定义类加载器)
     - [获取ClassLoader的途径](#获取classloader的途径)
     - [双亲委派机制](#双亲委派机制)
-  - [3.运行时数据区](#3运行时数据区)
+  - [运行时数据区](#运行时数据区)
     - [程序计数器（PC寄存器）](#程序计数器pc寄存器)
       - [使用PC寄存器存储字节码指令地址的作用？](#使用pc寄存器存储字节码指令地址的作用)
       - [PC寄存器为什么会被设定为线程私有？](#pc寄存器为什么会被设定为线程私有)
@@ -54,10 +54,14 @@
       - [为什么有TLAB？](#为什么有tlab)
       - [什么是TLAB？](#什么是tlab)
     - [堆空间的参数设置](#堆空间的参数设置)
+  - [方法区](#方法区)
+    - [方法区&栈&堆的关系](#方法区栈堆的关系)
+    - [概念](#概念)
+      - [运行时常量池](#运行时常量池)
 
 # JVM
 
-## 1.JVM概述
+## JVM概述
 
 ### JVM特点
 
@@ -68,6 +72,14 @@
 ### JVM的整体结构
 
 ![](https://tva1.sinaimg.cn/large/e6c9d24egy1gokj8v0yx8j20f40dm0wz.jpg)
+
+### 总体框架图
+
+![](https://tva1.sinaimg.cn/large/008eGmZEgy1gp7slck29aj30lw0g4ad4.jpg)
+
+***
+
+
 
 ### JVM的架构模型
 
@@ -107,7 +119,7 @@ Sun JDK，Open JDK默认VM
 
 
 
-## 2.类加载器子系统（Class Loader）
+## 类加载器子系统（Class Loader）
 
 ### 作用
 
@@ -191,7 +203,7 @@ Example：自定义类java.lang.String
 
 
 
-## 3.运行时数据区
+## 运行时数据区
 
 ![](https://tva1.sinaimg.cn/large/008eGmZEgy1gog1k86s0vj30d207r75m.jpg)
 
@@ -499,3 +511,29 @@ JVM在进行GC时，并非每次都对三个内存区域（新生代、老年代
 * -XX:MaxTenuringThreshold:设置新生代垃圾的最大年龄
 * -XX:+PrintGCDetails:输出详细的GC处理日志
 * -XX:HandlePromotionFailure:是否设置空间分配担保
+
+
+
+## 方法区
+
+### 方法区&栈&堆的关系
+
+从线程共享的角度来看
+
+![](https://tva1.sinaimg.cn/large/e6c9d24egy1goln7qks8bj20e206ktb0.jpg)
+
+三者的交互关系
+
+![](https://tva1.sinaimg.cn/large/e6c9d24egy1goln7x7xbjj20go08mwg1.jpg)
+
+### 概念
+
+方法区就是我们常说的**永久代**(Permanent Generation)**, 用于存储**被 **JVM** **加载的类信息**、**常量**、**静态变量**、**即时编译器编译后的代码**等数据. 
+
+HotSpot VM 把 GC 分代收集扩展至方法区, 即**使用** **Java** **堆的永久代来实现方法区**, 这样 HotSpot 的垃圾收集器就可以像管理 Java 堆一样管理这部分内存, 而不必为方法区开发专门的内存管理器(永久带的内存回收的主要目标是针对**常量池的回收**和**类型 的卸载**, 因此收益一般很小)。
+
+#### 运行时常量池
+
+运行时常量池(Runtime Constant Pool)是方法区的一部分。Class 文件中除了有类的版本、字段、方法、接口等描述等信息外，还有一项信息是常量池(Constant Pool Table)，用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后存放到方法区的运行时常量池中。
+
+ Java 虚拟机对 Class 文件的每一部分(自然也包括常量池)的格式都有严格的规定，每一个字节用于存储哪种数据都必须符合规范上的要求，这样才会 被虚拟机认可、装载和执行。
